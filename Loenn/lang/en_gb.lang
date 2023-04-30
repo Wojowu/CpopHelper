@@ -1,0 +1,93 @@
+mods.CpopHelper.name=Cpop Helper
+
+#Set Subpixel Trigger
+
+triggers.setSubpixelTrigger.placements.name.setSubpixel=Set Subpixel
+triggers.setSubpixelTrigger.placements.description.setSubpixel=Sets player subpixels to a prescribed value.
+
+triggers.setSubpixelTrigger.attributes.name.valueX=X subpixel value
+triggers.setSubpixelTrigger.attributes.description.valueX=Value to which the horizontal subpixel will be set to.\n0 = left edge of a pixel, 1 = right edge.
+triggers.setSubpixelTrigger.attributes.name.valueY=Y subpixel value
+triggers.setSubpixelTrigger.attributes.description.valueY=Value to which the vertical subpixel will be set to.\n0 = bottom edge of a pixel, 1 = top edge.
+
+triggers.setSubpixelTrigger.attributes.name.setX=Set X subpixel
+triggers.setSubpixelTrigger.attributes.description.setX=If enabled, player's horizontal subpixel will be modified.
+triggers.setSubpixelTrigger.attributes.name.setY=Set Y subpixel
+triggers.setSubpixelTrigger.attributes.description.setY=If enabled, player's horizontal subpixel will be modified.
+
+triggers.setSubpixelTrigger.attributes.name.ifStationary=Only if stationary
+triggers.setSubpixelTrigger.attributes.description.ifStationary=If enabled, the subpixel value will be altered only when player's velocity is zero. Otherwise, it will be updated every frame.
+
+#Check Subpixel Trigger
+
+triggers.checkSubpixelTrigger.placements.name.checkSubpixel=Check Subpixel
+triggers.checkSubpixelTrigger.placements.description.checkSubpixel=Kills the player unless the subpixel is equal to or close to a prescribed value.
+
+triggers.checkSubpixelTrigger.attributes.name.valueX=X subpixel value
+triggers.checkSubpixelTrigger.attributes.description.valueX=Value to which the horizontal subpixel has to be equal to.\n0 = left edge of a pixel, 1 = right edge.
+triggers.checkSubpixelTrigger.attributes.name.valueY=Y subpixel value
+triggers.checkSubpixelTrigger.attributes.description.valueY=Value to which the vertical subpixel has to be equal to.\n0 = bottom edge of a pixel, 1 = top edge.
+
+triggers.checkSubpixelTrigger.attributes.name.marginX=X subpixel leniency
+triggers.checkSubpixelTrigger.attributes.description.marginX=How close the horizontal subpixel has to be to the prescribed value.\n0 means the values have to be exactly equal.
+triggers.checkSubpixelTrigger.attributes.name.marginY=Y subpixel leniency
+triggers.checkSubpixelTrigger.attributes.description.marginY=How close the vertical subpixel has to be to the prescribed value.\n0 means the values have to be exactly equal.
+
+triggers.checkSubpixelTrigger.attributes.name.checkX=Check X subpixel
+triggers.checkSubpixelTrigger.attributes.description.checkX=If disabled, horizontal subpixel will not be checked.
+triggers.checkSubpixelTrigger.attributes.name.checkY=Check Y subpixel
+triggers.checkSubpixelTrigger.attributes.description.checkY=If disabled, vertical subpixel will not be checked.
+
+#Cpop Block
+
+entities.cpopBlock.placements.name.cpopBlock=Cpop Block
+entities.cpopBlock.placements.description.cpopBlock=Adds a consistent, customizable leniency for cpops.
+
+entities.cpopBlock.attributes.name.timer1=Regrab delay
+entities.cpopBlock.attributes.description.timer1=How many frames you need to wait before regrabbing.\n1 means you can regrab on first possible frame.\nFor vanilla cpops, variable 1-3 depending on subpixels.
+entities.cpopBlock.attributes.name.timer2=Regrab leniency
+entities.cpopBlock.attributes.description.timer2=How many frames of leniency there are to regrab after the delay.\n1 for vanilla cpops.
+entities.cpopBlock.attributes.name.timer3=Jump leniency
+entities.cpopBlock.attributes.description.timer3=How many frames of leniency there are to jump after the regrab.\n1 for vanilla cpops.
+
+entities.cpopBlock.attributes.name.direction=Direction
+entities.cpopBlock.attributes.description.direction=Which side of the wall the leniency is applied to.
+
+#Quiz Controller
+
+entities.quizController.placements.name.quizController=Quiz Controller
+entities.quizController.placements.description.quizController=Create and display a quiz by displaying a sequence of options randomly picked from a provided pool.
+
+entities.quizController.attributes.name.questionID=Question ID
+entities.quizController.attributes.description.questionID=Identifies which pool of images or text the options are pulled from and displayed at the nodes.
+entities.quizController.attributes.name.options=Options
+entities.quizController.attributes.description.options=The number of possible options for the answer.\nIf exceeds the number of nodes, some options will not be displayed.
+entities.quizController.attributes.name.numberCorrect=Possible correct
+entities.quizController.attributes.description.numberCorrect=The number of possibilities which can appear as a correct answer.\nShould be equal to the number of images in Gameplay/quiz/questionID/correct or dialog lines quiz_questionID_correct_x
+entities.quizController.attributes.name.numberIncorrect=Possible incorrect
+entities.quizController.attributes.description.numberIncorrect=The number of possibilities which can appear as an icorrect answer.\nIf number permits, the incorrect options will be chosen distinct.\nShould be equal to the number of images in Gameplay/quiz/questionID/incorrect or dialog lines quiz_questionID_incorrect_x
+entities.quizController.attributes.name.answerType=Answer type
+entities.quizController.attributes.description.answerType=Whether the options should be displayed as text, regular images, or high resolution images.\nHighResImage will render in the SubHUD layer, in front of all other gameplay elements.
+entities.quizController.attributes.name.revealAnswer=Reveal answer
+entities.quizController.attributes.description.revealAnswer=Whether to show the player which option is correct in case they choose an incorrect one.
+entities.quizController.attributes.name.actionCorrect=On correct answer
+entities.quizController.attributes.description.actionCorrect=The action to perform if the player chooses the answer correctly.
+entities.quizController.attributes.name.actionIncorrect=On incorrect answer
+entities.quizController.attributes.description.actionIncorrect=The action to perform if the player chooses the answer incorrectly.
+entities.quizController.attributes.name.controllerID=Controller ID
+entities.quizController.attributes.description.controllerID=Unique ID assigned to the controller, used to associate answer triggers to it.\nHas to be distinct for all quiz controllers in a room.
+entities.quizController.attributes.name.flag=Flag
+entities.quizController.attributes.description.flag=The ID of the flag to set on answer selection, if relevant.
+entities.quizController.attributes.name.displayScale=Display scale
+entities.quizController.attributes.description.displayScale=Rescales the option displayed in-game.
+
+#Quiz Answer Trigger
+triggers.quizAnswerTrigger.placements.name.quizAnswerTrigger=Quiz Answer Trigger
+triggers.quizAnswerTrigger.placements.description.quizAnswerTrigger=Trigger for detecting player's choice of answer in a quiz.
+
+triggers.quizAnswerTrigger.attributes.name.controllerID=Controller ID
+triggers.quizAnswerTrigger.attributes.description.controllerID=The ID of the controller to which the answer trigger should be assigned.
+triggers.quizAnswerTrigger.attributes.name.index=Option index
+triggers.quizAnswerTrigger.attributes.description.index=Which option in the quiz the trigger is associated to.
+triggers.quizAnswerTrigger.attributes.name.auto=Auto-assign index
+triggers.quizAnswerTrigger.attributes.description.auto=Automatically find the index by picking the node of the controller closest to the trigger.\n! If selected, overrides the value provided in the "Option index" field !

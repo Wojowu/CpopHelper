@@ -1,0 +1,6 @@
+- Name: CpopHelper
+  Version: 1.1.2
+  DLL: bin/CpopHelper.dll
+  Dependencies:
+    - Name: Everest
+      Version: 1.3471.0
