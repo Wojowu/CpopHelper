@@ -10,6 +10,7 @@ All feedback is welcome and appreciated, including suggestions or feature reques
 ### Entities
  - **Cpop Block**: Adds a customizable leniency for performing corner pops.
  - **Quiz Controller**: Displays randomly chosen set of answers (TODO: and questions) for the player to pick from.
+ - **HD Graphic** (*potentially unstable feature!*): Render an arbitrary high resolution graphic in-game.
 
 ### Triggers
  - **Set Subpixel Trigger**: Sets the subpixel value of the player to a prescribed value.
