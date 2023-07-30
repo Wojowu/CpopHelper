@@ -82,6 +82,7 @@ entities.quizController.attributes.name.displayScale=Display scale
 entities.quizController.attributes.description.displayScale=Rescales the option displayed in-game.
 
 #Quiz Answer Trigger
+
 triggers.quizAnswerTrigger.placements.name.quizAnswerTrigger=Quiz Answer Trigger
 triggers.quizAnswerTrigger.placements.description.quizAnswerTrigger=Trigger for detecting player's choice of answer in a quiz.
 
@@ -90,4 +91,14 @@ triggers.quizAnswerTrigger.attributes.description.controllerID=The ID of the con
 triggers.quizAnswerTrigger.attributes.name.index=Option index
 triggers.quizAnswerTrigger.attributes.description.index=Which option in the quiz the trigger is associated to.
 triggers.quizAnswerTrigger.attributes.name.auto=Auto-assign index
-triggers.quizAnswerTrigger.attributes.description.auto=Automatically find the index by picking the node of the controller closest to the trigger.\n! If selected, overrides the value provided in the "Option index" field !
+triggers.quizAnswerTrigger.attributes.description.auto=Automatically find the index by picking the node of the controller closest to the trigger.\n! If selected, overrides the value provided in the "Option index" field!
+
+#HD Graphic
+
+entities.HDGraphic.placements.name.HDGraphic=HD Graphic
+entities.HDGraphic.placements.description.HDGraphic=Display an arbitrary PNG graphic in-game. Will render in front of all other entities.
+
+entities.HDGraphic.attributes.name.path=File path
+entities.HDGraphic.attributes.description.path=Path to the graphic to be displayed, relative to Graphics/Atlases/Gameplay. Don't include the file extension.
+entities.HDGraphic.attributes.name.displayScale=Display scale
+entities.HDGraphic.attributes.description.displayScale=Rescales the image displayed in-game.

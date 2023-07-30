@@ -386,7 +386,6 @@ namespace Celeste.Mod.CpopHelper {
                 {
                     for (int i = 0; i < options; i++)
                     {
-                        Logger.Log(LogLevel.Warn, "cpop", "hi");
                         string spritePath;
                         if (i == value)
                         {
@@ -565,5 +564,41 @@ namespace Celeste.Mod.CpopHelper {
             }
         }
 
-    }
+        }
+
+        [CustomEntity("HDGraphic")]
+        public class HDGraphic : Entity
+        {
+            public string path;
+            public float displayScale;
+
+            private MTexture texture;
+
+            private static float camScale = 6f;
+            private static Vector2 entityOffset = new(12f, 12f);
+
+            public HDGraphic(EntityData data, Vector2 offset) : base(data.Position + offset)
+            {
+                base.Depth = 1000;
+                path = data.Attr("path");
+                displayScale = data.Float("displayScale");
+            }
+            public override void Added(Scene scene)
+            {
+                base.Added(scene);
+                Tag = TagsExt.SubHUD;
+
+                texture = GFX.Game[path];
+            }
+            public override void Render()
+            {
+                base.Render();
+
+                Camera cam = SceneAs<Level>().Camera;
+                var displayPos = camScale * (this.Position - cam.Position) + camScale * entityOffset;
+                texture.DrawCentered(displayPos, Microsoft.Xna.Framework.Color.White, displayScale);
+            }
+
+        }
+
 }
