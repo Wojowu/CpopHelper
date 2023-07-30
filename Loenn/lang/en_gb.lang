@@ -96,7 +96,7 @@ triggers.quizAnswerTrigger.attributes.description.auto=Automatically find the in
 #HD Graphic
 
 entities.HDGraphic.placements.name.HDGraphic=HD Graphic
-entities.HDGraphic.placements.description.HDGraphic=Display an arbitrary PNG graphic in-game. Will render in front of all other entities.
+entities.HDGraphic.placements.description.HDGraphic=Display an arbitrary graphic in-game using high res SubHUD rendering. Will render in front of all other entities. Works with most PNG files.
 
 entities.HDGraphic.attributes.name.path=File path
 entities.HDGraphic.attributes.description.path=Path to the graphic to be displayed, relative to Graphics/Atlases/Gameplay. Don't include the file extension.
