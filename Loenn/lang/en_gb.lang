@@ -102,3 +102,17 @@ entities.HDGraphic.attributes.name.path=File path
 entities.HDGraphic.attributes.description.path=Path to the graphic to be displayed, relative to Graphics/Atlases/Gameplay. Don't include the file extension.
 entities.HDGraphic.attributes.name.displayScale=Display scale
 entities.HDGraphic.attributes.description.displayScale=Rescales the image displayed in-game.
+
+#Theo Jelly
+
+entities.TheoJelly.placements.name.TheoJelly=Theo Jelly
+entities.TheoJelly.placements.description.TheoJelly=A jelly which replicates some of Theo's functions, preventing transitions and killing the player if it dies.
+
+entities.TheoJelly.attributes.name.bubble=Bubble
+entities.TheoJelly.attributes.description.bubble=Makes the jelly float in mid air until grabbed.
+entities.TheoJelly.attributes.name.preventTransition=Prevent transitions
+entities.TheoJelly.attributes.description.preventTransition=Will prevent the player from exiting the screen from the top or from the side of the screen unless the Theo jelly is held.
+entities.TheoJelly.attributes.name.preventDownTransition=Prevent down transitions
+entities.TheoJelly.attributes.description.preventDownTransition=Raises the death plane preventing the player from existing the screen from the bottom of the screen unless the Theo jelly is held.
+entities.TheoJelly.attributes.name.killPlayer=Kill player
+entities.TheoJelly.attributes.description.killPlayer=Kills the player if the Theo jelly is ever destroyed.

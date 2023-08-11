@@ -20,10 +20,10 @@ All feedback is welcome and appreciated, including suggestions or feature reques
 ## Huge Thanks
 When I began this project, I had very little programming experience, and absolutely none with C#, especially with code modding for Celeste. This mod would not exist without the help of some wonderful people in the Celeste Discord server. In particular I would like to thank:
  - Vividescence, for encouragement in starting this project,
- - Kalobi, SSM24, Microlith57, and XMinty7, for technical help.
+ - Kalobi, SSM24, Microlith57, XMinty7, woofdoggo for technical help.
 
 Additional thanks to
- - Vickyy, for (jokingly) suggesting the name for the helper.
- - Aurora Evalon, for coming up with a [project](https://gamebanana.com/mods/439982) which lead me to develop the quizzes.
+ - Vickyy, for (jokingly) suggesting the name for the helper, and requesting Theo Jelly.
+ - Aurora Evalon, for coming up with a [project](https://gamebanana.com/mods/439982) which lead me to develop the quizzes, and requesting HD Graphic.
 
 ![catpop](https://cdn.discordapp.com/emojis/971378373790162984.gif)

@@ -16,11 +16,11 @@ using FMOD;
 using Microsoft.Xna.Framework.Design;
 using System.Threading;
 using System.Drawing.Text;
-using System.Drawing;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 using Microsoft.Xna.Framework.Graphics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Celeste.Mod.CpopHelper {
     public class CpopHelperModule : EverestModule {
@@ -72,8 +72,7 @@ namespace Celeste.Mod.CpopHelper {
             public override void OnStay(Player player)
             {
                 base.OnStay(player);
-                DynamicData playerData = DynamicData.For(player);
-                Vector2 movementCounter = playerData.Get<Vector2>("movementCounter");
+                Vector2 movementCounter = player.movementCounter;
                 Vector2 Speed = player.Speed;
                 int State = player.StateMachine.State;
                 bool isStationary = (Speed.X == 0f && Speed.Y == 0f && State != 2);
@@ -95,7 +94,7 @@ namespace Celeste.Mod.CpopHelper {
                         movementCounter.Y = 0.5f - valueY;
                     }
                 }
-                playerData.Set("movementCounter", movementCounter);
+                player.movementCounter = movementCounter;
             }
 
         }
@@ -130,8 +129,7 @@ namespace Celeste.Mod.CpopHelper {
             public override void OnEnter(Player player)
             {
                 base.OnEnter(player);
-                DynamicData playerData = DynamicData.For(player);
-                Vector2 movementCounter = playerData.Get<Vector2>("movementCounter");
+                Vector2 movementCounter = player.movementCounter;
                 float diffX = Math.Abs(movementCounter.X - (valueX - 0.5f));
                 float diffY = Math.Abs(movementCounter.Y - (0.5f - valueY));
                 if ((checkX && diffX > marginX) || (checkY && diffY > marginY))
@@ -188,7 +186,6 @@ namespace Celeste.Mod.CpopHelper {
                 {
                     return;
                 }
-                DynamicData playerData = DynamicData.For(player);
 
                 int playerPosX = (int)player.TopLeft.X;
                 int playerPosY = (int)player.TopLeft.Y;
@@ -280,7 +277,7 @@ namespace Celeste.Mod.CpopHelper {
                         }
                         else
                         {
-                            playerData.Set("movementCounter", new Vector2((float)dirSign * 0.4f, 0f));
+                            player.movementCounter = new Vector2((float)dirSign * 0.4f, 0f);
                             player.StateMachine.State = 1;
                             player.Position.X = blockPosX + 4 - dirSign * 8;
                             player.Position.Y = blockPosY + 11;
@@ -401,7 +398,7 @@ namespace Celeste.Mod.CpopHelper {
             }
             private void DrawImage(int i, Vector2 displayPos)
             {
-                mTextures[i].DrawCentered(displayPos, Microsoft.Xna.Framework.Color.White, displayScale);
+                mTextures[i].DrawCentered(displayPos, Color.White, displayScale);
             }
             private void DrawText(bool correct, int answerID, Vector2 displayPos)
             {
@@ -416,7 +413,7 @@ namespace Celeste.Mod.CpopHelper {
                 }
                 string textLine = Dialog.Clean(textPath).ToString();
 
-                ActiveFont.DrawOutline(textLine, displayPos, new Vector2 (0.5f,0.5f), displayScale * Vector2.One, Microsoft.Xna.Framework.Color.White, 2f, Microsoft.Xna.Framework.Color.Black);
+                ActiveFont.DrawOutline(textLine, displayPos, new Vector2 (0.5f,0.5f), displayScale * Vector2.One, Color.White, 2f, Color.Black);
             }
 
             public override void Added(Scene scene)
@@ -596,9 +593,144 @@ namespace Celeste.Mod.CpopHelper {
 
                 Camera cam = SceneAs<Level>().Camera;
                 var displayPos = camScale * (this.Position - cam.Position) + camScale * entityOffset;
-                texture.DrawCentered(displayPos, Microsoft.Xna.Framework.Color.White, displayScale);
+                texture.DrawCentered(displayPos, Color.White, displayScale);
             }
 
         }
 
+    [Tracked]
+    [CustomEntity("TheoJelly")]
+    public class TheoJelly : Glider
+    {
+        private Level Level;
+        private bool died;
+        private bool wallSpawned;
+        private InvisibleBarrier[] walls = new InvisibleBarrier[3];
+        private int test = 0;
+        private TransitionListener transitionListener;
+
+        public bool preventTransition = true;
+        public bool preventDownTransition = false;
+        public bool killPlayer = true;
+
+        public TheoJelly(EntityData data, Vector2 offset) : base(data.Position + offset, data.Bool("bubble"), false)
+        {
+            base.Depth = -1000;
+            preventTransition = data.Bool("preventTransition");
+            preventDownTransition = data.Bool("preventDownTransition");
+            killPlayer = data.Bool("killPlayer");
+
+            transitionListener = new TransitionListener();
+            Add(transitionListener);
+            transitionListener.OnOutBegin = SetWalls;
+
+            Remove(sprite);
+            Sprite newSprite = GFX.SpriteBank.Create("TheoJelly");
+            Add(sprite = newSprite);
+        }
+
+        private void SetWalls()
+        {
+            Level = base.SceneAs<Level>();
+            walls[0] = new InvisibleBarrier(new Vector2(Level.Bounds.Left - 8f, Level.Bounds.Top), 8f, Level.Bounds.Height);
+            walls[1] = new InvisibleBarrier(new Vector2(Level.Bounds.Left, Level.Bounds.Top-11f), Level.Bounds.Width, 8f);
+            walls[2] = new InvisibleBarrier(new Vector2(Level.Bounds.Right, Level.Bounds.Top), 8f, Level.Bounds.Height);
+            wallSpawned = false;
+        }
+        private void Die()
+        {
+            if (!this.died)
+            {
+                this.died = true;
+                if (!this.destroyed)
+                {
+                    this.destroyed = true;
+                    base.Add(new Coroutine(base.DestroyAnimationRoutine(), true));
+                }
+                if (killPlayer)
+                {
+                    Player entity = this.Level.Tracker.GetEntity<Player>();
+                    if (entity != null)
+                    {
+                        entity.Die(-Vector2.UnitX * (float)entity.Facing, false, true);
+                    }
+                }
+            }
+        }
+
+        public override void OnSquish(CollisionData data)
+        {
+            if (!base.TrySquishWiggle(data, 3, 3))
+            {
+                this.Die();
+            }
+        }
+        public override void Added(Scene scene)
+        {
+            base.Added(scene);
+
+            this.Level = base.SceneAs<Level>();
+            foreach (Entity entity in this.Level.Tracker.GetEntities<TheoJelly>())
+            {
+                TheoJelly theoJelly = (TheoJelly)entity;
+                if (theoJelly != this && theoJelly.Hold.IsHeld)
+                {
+                    base.RemoveSelf();
+                }
+            }
+
+            SetWalls();
+        }
+        public override void Render()
+        {
+            base.Render();
+        }
+
+        public override void Update()
+        {
+            if (base.Bottom > (float)this.Level.Bounds.Bottom && SaveData.Instance.Assists.Invincible)
+            {
+                base.Bottom = (float)this.Level.Bounds.Bottom;
+                this.Speed.Y = -90f;
+                Audio.Play("event:/game/general/assist_screenbottom", this.Position);
+            }
+            else if (base.Top > (float)this.Level.Bounds.Bottom)
+            {
+                this.Die();
+            }
+            if (this.destroyed) {
+                this.Die();
+            }
+
+            Player player = this.Level.Tracker.GetEntity<Player>();
+            if (player != null) {
+                if (preventTransition)
+                {
+                    if (!this.Hold.IsHeld && !wallSpawned)
+                    {
+                        wallSpawned = true;
+                        foreach (InvisibleBarrier wall in walls)
+                        {
+                            Scene.Add(wall);
+                        }
+                    }
+                    if (this.Hold.IsHeld && wallSpawned)
+                    {
+                        wallSpawned = false;
+                        foreach (InvisibleBarrier wall in walls)
+                        {
+                            Scene.Remove(wall); 
+                        }
+                    }
+                }
+                if (preventDownTransition && !this.Hold.IsHeld && player.Bottom > Level.Bounds.Bottom - 4f)
+                {
+                    player.Die(Vector2.Zero);
+                }
+            }
+
+            base.Update();
+        }
+    }
+        
 }
